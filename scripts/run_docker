@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+scripts/build_protos
+docker build -t 'grpc_weakref:testing' . && docker run --rm grpc_weakref:testing

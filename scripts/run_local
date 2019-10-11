@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+scripts/build_protos
+
+PYTHONPATH=./src env/bin/python src/main.py

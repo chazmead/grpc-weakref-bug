@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [[ ! -d ./env ]]; then
+  python3.7 -m venv ./env
+fi
+
+env/bin/pip install -qU pip
+env/bin/pip install -r ./requirements.txt
+
+proto_path='protos'
+proto_compiler="env/bin/python -m grpc_tools.protoc --proto_path=${proto_path}"
+
+# Remove the old versions.
+rm -Rf src/protobuf/*.py
+touch src/protobuf/__init__.py
+
+. env/bin/activate
+$proto_compiler \
+  --python_out=src/protobuf \
+  ${proto_path}/*
+EXIT_CODE=$?
+deactivate
+exit $EXIT_CODE
+
